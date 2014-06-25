@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.spka.cursus</groupId>
+	<artifactId>cursus-spka-publish</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>cursus (SPKA Publish)</name>
+	<description>Race series management program (SPKA Publish Application)</description>
+	<parent>
+		<groupId>eu.lp0.cursus</groupId>
+		<artifactId>cursus</artifactId>
+		<version>0</version>
+		<relativePath></relativePath>
+	</parent>
+	<scm>
+		<connection>scm:git:git://github.com/lp0/cursus-spka-publish.git</connection>
+		<url>https://github.com/lp0/cursus-spka-publish/</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>uk.me.sa</id>
+			<name>Simon Arlott</name>
+			<url>http://sa.me.uk/</url>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.lp0.cursus</groupId>
+			<artifactId>cursus-core</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>run</id>
+			<properties>
+				<mainClass>org.spka.cursus.publish.ConsoleMain</mainClass>
+			</properties>
+			<build>
+				<defaultGoal>compile</defaultGoal>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>${mainClass}</mainClass>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
