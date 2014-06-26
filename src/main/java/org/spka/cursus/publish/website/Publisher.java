@@ -27,6 +27,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.spka.cursus.publish.website.ftp.DownloadDataFiles;
 import org.spka.cursus.publish.website.ftp.FileCache;
 import org.spka.cursus.publish.website.ftp.ListFiles;
+import org.spka.cursus.publish.website.ftp.PrepareDirectory;
 import org.spka.cursus.publish.website.ftp.Uploader;
 
 import com.google.common.io.ByteSource;
@@ -40,16 +41,20 @@ public class Publisher implements FTPActivity {
 	private Map<String, ByteSource> files = new LinkedHashMap<String, ByteSource>();
 
 	public Publisher(Collection<File> files) throws ImportException, ExportException, IOException {
-		this.files.put(".htaccess", Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + ".htaccess")));
+		this.files.put(Constants.RESULTS_DIR + "/.htaccess", Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + ".htaccess")));
 
 		for (File file : files) {
-			this.files.putAll(new ResultsPagesGenerator(file).getPages());
+			for (Map.Entry<String, ByteSource> page : new ResultsPagesGenerator(file).getPages().entrySet()) {
+				this.files.put(Constants.RESULTS_DIR + "/" + page.getKey(), page.getValue());
+			}
 		}
 	}
 
 	@Override
-	public boolean exec(FTPClient ftp) throws IOException {
+	public boolean exec(FTPClient ftp) throws IOException, ImportException {
 		FileCache fileCache = new FileCache();
+
+		new PrepareDirectory().on(ftp);
 
 		ListFiles ls = new ListFiles(fileCache);
 		ls.from(ftp);
@@ -59,6 +64,12 @@ public class Publisher implements FTPActivity {
 
 		DownloadDataFiles dl = new DownloadDataFiles(fileCache);
 		dl.from(ftp);
+
+		files.clear();
+		for (Map.Entry<String, ByteSource> page : new ResultsLinksGenerator(fileCache).getPages().entrySet()) {
+			files.put(Constants.WWW_DIR + "/" + page.getKey(), page.getValue());
+		}
+		ul.to(ftp, files);
 
 		return false;
 	}

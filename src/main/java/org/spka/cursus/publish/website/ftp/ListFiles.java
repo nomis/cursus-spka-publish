@@ -39,18 +39,8 @@ public class ListFiles {
 	}
 
 	public void from(FTPClient ftp) throws IOException {
-		if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
-			if (!ftp.makeDirectory(Constants.RESULTS_DIR)) {
-				throw new IllegalStateException("Unable to create results dir");
-			}
-
-			if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
-				throw new IllegalStateException("Unable to change to results dir");
-			}
-		}
-
-		for (FTPFile file : ftp.listFiles(null, FILES_ONLY)) {
-			files.put(file.getName(), null);
+		for (FTPFile file : ftp.listFiles(Constants.RESULTS_DIR, FILES_ONLY)) {
+			files.put(Constants.RESULTS_DIR + "/" + file.getName(), null);
 		}
 	}
 }

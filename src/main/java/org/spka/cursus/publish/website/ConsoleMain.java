@@ -84,7 +84,7 @@ public class ConsoleMain {
 		return ftp(new Publisher(files));
 	}
 
-	private boolean ftp(FTPActivity activity) throws IOException {
+	private boolean ftp(FTPActivity activity) throws IOException, ImportException {
 		hostname = getPref("hostname", "FTP Hostname");
 		username = getPref("username", "FTP Username");
 		password = getPref("password", "FTP Password", true);

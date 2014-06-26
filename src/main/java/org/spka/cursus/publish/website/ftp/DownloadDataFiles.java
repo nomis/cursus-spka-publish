@@ -35,16 +35,12 @@ public class DownloadDataFiles {
 	}
 
 	public void from(FTPClient ftp) throws IOException {
-		if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
-			throw new IllegalStateException("Unable to change to results dir");
-		}
-
 		if (!ftp.setFileType(FTP.BINARY_FILE_TYPE)) {
 			throw new IllegalStateException("Unable to set mode to binary");
 		}
 
 		for (String fileName : files.keySet()) {
-			if (fileName.startsWith("__") && fileName.endsWith(".xml")) {
+			if (fileName.startsWith(Constants.RESULTS_DIR + "/__") && fileName.endsWith(".xml")) {
 				if (files.get(fileName) == null) {
 					ByteArrayOutputStream buf = new ByteArrayOutputStream();
 					if (!ftp.retrieveFile(fileName, buf)) {

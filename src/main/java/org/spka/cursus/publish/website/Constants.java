@@ -17,12 +17,22 @@
  */
 package org.spka.cursus.publish.website;
 
+import java.util.Set;
+
+import org.spka.cursus.scoring.CCConstants;
+
+import com.google.common.collect.ImmutableSet;
+
 @SuppressWarnings("nls")
 public class Constants {
 	public static final String RESOURCE_PATH = "org/spka/cursus/publish/website/";
 
 	public static final String WWW_DIR = "/public_html";
+	public static final String RESULTS_FILE = WWW_DIR + "/results.shtml";
 	public static final String RESULTS_DIR = WWW_DIR + "/results";
+	public static final String DATA_FILE_PREFIX = "__";
 
 	public static final String PILOT_MAP_FILE = "pilots.map";
+
+	public static final Set<String> TOP_COUNTRY_SCORERS = ImmutableSet.of(CCConstants.UUID_2008, CCConstants.UUID_2009, CCConstants.UUID_2013);
 }

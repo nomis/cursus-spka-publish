@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.spka.cursus.publish.website.Constants;
 
 import com.google.common.io.ByteSource;
 
@@ -37,10 +36,6 @@ public class Uploader {
 	}
 
 	public void to(FTPClient ftp, Map<String, ByteSource> newFiles) throws IOException {
-		if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
-			throw new IllegalStateException("Unable to change to results dir");
-		}
-
 		if (!ftp.setFileType(FTP.BINARY_FILE_TYPE)) {
 			throw new IllegalStateException("Unable to set mode to binary");
 		}

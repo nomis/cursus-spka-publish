@@ -27,7 +27,7 @@ public class PrepareDirectory {
 	public PrepareDirectory() {
 	}
 
-	public void at(FTPClient ftp) throws IOException {
+	public void on(FTPClient ftp) throws IOException {
 		if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
 			if (!ftp.makeDirectory(Constants.RESULTS_DIR)) {
 				throw new IllegalStateException("Unable to create results dir");
@@ -37,5 +37,7 @@ public class PrepareDirectory {
 				throw new IllegalStateException("Unable to change to results dir");
 			}
 		}
+
+		ftp.changeWorkingDirectory("/");
 	}
 }

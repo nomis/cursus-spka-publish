@@ -23,12 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
-import org.spka.cursus.scoring.CCConstants;
-
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
@@ -42,9 +38,7 @@ import eu.lp0.cursus.xml.scores.ScoresXMLFile;
 
 @SuppressWarnings("nls")
 public class ResultsPagesGenerator {
-	private static final Set<String> TOP_COUNTRY_SCORERS = ImmutableSet.of(CCConstants.UUID_2008, CCConstants.UUID_2009, CCConstants.UUID_2013);
 	private static final Map<String, String> CLASSES = new LinkedHashMap<String, String>();
-	private static final String DATA_FILE_PREFIX = "__";
 
 	static {
 		CLASSES.put("Junior", "Junior");
@@ -55,7 +49,8 @@ public class ResultsPagesGenerator {
 
 	public ResultsPagesGenerator(File scoresFile) throws IOException, ImportException, ExportException {
 		ScoresXMLFile scores = new TransformResults(Files.asByteSource(scoresFile));
-		XSLTHTMLGenerator gen = new XSLTHTMLGenerator(DATA_FILE_PREFIX + scoresFile.getName(), Files.getNameWithoutExtension(scoresFile.getName()), scores);
+		XSLTHTMLGenerator gen = new XSLTHTMLGenerator(Constants.DATA_FILE_PREFIX + scoresFile.getName(), Files.getNameWithoutExtension(scoresFile.getName()),
+				scores);
 
 		gen.getHeaders().add("header.xml");
 		gen.getFooters().add("footer.xml");
@@ -65,7 +60,7 @@ public class ResultsPagesGenerator {
 		}
 		gen.getFlags().put("compact-race", "10");
 		gen.getFlags().put("compact-event", "10");
-		if (TOP_COUNTRY_SCORERS.contains(scores.getData().getSeriesResults().getScorer())) {
+		if (Constants.TOP_COUNTRY_SCORERS.contains(scores.getData().getSeriesResults().getScorer())) {
 			gen.getFlags().put("top-country", null);
 		}
 
@@ -80,7 +75,7 @@ public class ResultsPagesGenerator {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		scores.to(buf);
 		buf.close();
-		pages.put(DATA_FILE_PREFIX + scoresFile.getName(), ByteSource.wrap(buf.toByteArray()));
+		pages.put(Constants.DATA_FILE_PREFIX + scoresFile.getName(), ByteSource.wrap(buf.toByteArray()));
 
 		for (String styleSheet : gen.getStyleSheets()) {
 			pages.put(styleSheet, Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + styleSheet)));
