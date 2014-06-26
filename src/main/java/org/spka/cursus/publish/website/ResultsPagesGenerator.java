@@ -20,13 +20,16 @@ package org.spka.cursus.publish.website;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.spka.cursus.scoring.CCConstants;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Ordering;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -40,7 +43,13 @@ import eu.lp0.cursus.xml.scores.ScoresXMLFile;
 @SuppressWarnings("nls")
 public class ResultsPagesGenerator {
 	private static final Set<String> TOP_COUNTRY_SCORERS = ImmutableSet.of(CCConstants.UUID_2008, CCConstants.UUID_2009, CCConstants.UUID_2013);
+	private static final Map<String, String> CLASSES = new LinkedHashMap<String, String>();
 	private static final String DATA_FILE_PREFIX = "__";
+
+	static {
+		CLASSES.put("Junior", "Junior");
+		CLASSES.put("16\" Wheel", "16\"");
+	}
 
 	private Map<String, ByteSource> pages = new LinkedHashMap<String, ByteSource>();
 
@@ -60,13 +69,13 @@ public class ResultsPagesGenerator {
 			gen.getFlags().put("top-country", null);
 		}
 
+		Map<String, String> classes = new TreeMap<String, String>(Ordering.explicit(new ArrayList<String>(CLASSES.keySet())));
 		for (DataXMLClass class_ : scores.getData().getSeries().getClasses()) {
-			if (class_.getName().equals("16\" Wheel")) { //$NON-NLS-1$
-				gen.getClasses().put(class_.getName(), "16\""); //$NON-NLS-1$
-			} else if (class_.getName().equals("Junior")) { //$NON-NLS-1$
-				gen.getClasses().put(class_.getName(), class_.getName());
+			if (CLASSES.containsKey(class_.getName())) {
+				classes.put(class_.getName(), CLASSES.get(class_.getName()));
 			}
 		}
+		gen.getClasses().putAll(classes);
 
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		scores.to(buf);
