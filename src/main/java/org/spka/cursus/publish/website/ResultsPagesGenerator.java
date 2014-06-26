@@ -17,6 +17,7 @@
  */
 package org.spka.cursus.publish.website;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -44,7 +45,7 @@ public class ResultsPagesGenerator {
 	private Map<String, ByteSource> pages = new LinkedHashMap<String, ByteSource>();
 
 	public ResultsPagesGenerator(File scoresFile) throws IOException, ImportException, ExportException {
-		ScoresXMLFile scores = new ScoresXMLFile(Files.asByteSource(scoresFile));
+		ScoresXMLFile scores = new TransformResults(Files.asByteSource(scoresFile));
 		XSLTHTMLGenerator gen = new XSLTHTMLGenerator(DATA_FILE_PREFIX + scoresFile.getName(), Files.getNameWithoutExtension(scoresFile.getName()), scores);
 
 		gen.getHeaders().add("header.xml");
@@ -67,7 +68,10 @@ public class ResultsPagesGenerator {
 			}
 		}
 
-		pages.put(DATA_FILE_PREFIX + scoresFile.getName(), Files.asByteSource(scoresFile));
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		scores.to(buf);
+		buf.close();
+		pages.put(DATA_FILE_PREFIX + scoresFile.getName(), ByteSource.wrap(buf.toByteArray()));
 
 		for (String styleSheet : gen.getStyleSheets()) {
 			pages.put(styleSheet, Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + styleSheet)));
