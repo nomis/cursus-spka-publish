@@ -36,12 +36,22 @@
 			<artifactId>cursus-core</artifactId>
 			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>jline</groupId>
+			<artifactId>jline</artifactId>
+			<version>2.12</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
 			<id>run</id>
 			<properties>
-				<mainClass>org.spka.cursus.publish.ConsoleMain</mainClass>
+				<mainClass>org.spka.cursus.publish.website.ConsoleMain</mainClass>
 			</properties>
 			<build>
 				<defaultGoal>compile</defaultGoal>
