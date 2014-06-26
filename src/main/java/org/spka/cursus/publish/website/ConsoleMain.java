@@ -98,7 +98,7 @@ public class ConsoleMain {
 			prefs.remove("hostname");
 			throw e;
 		}
-		// ftp.enterLocalPassiveMode();
+		ftp.enterLocalPassiveMode();
 
 		boolean okay = false;
 		boolean ret;
