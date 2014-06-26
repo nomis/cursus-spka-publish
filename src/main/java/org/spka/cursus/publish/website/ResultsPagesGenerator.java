@@ -52,8 +52,6 @@ public class ResultsPagesGenerator {
 		XSLTHTMLGenerator gen = new XSLTHTMLGenerator(Constants.DATA_FILE_PREFIX + scoresFile.getName(), Files.getNameWithoutExtension(scoresFile.getName()),
 				scores);
 
-		gen.getHeaders().add("header.xml");
-		gen.getFooters().add("footer.xml");
 		gen.getStyleSheets().add("spka.css");
 		if (scores.getData().getSeries().getName().startsWith("Celtic Challenge ")) {
 			gen.getStyleSheets().add("spka-cc.css");
