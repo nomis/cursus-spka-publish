@@ -39,4 +39,5 @@ ul.menu li:hover { background: #ff8; }
 }
 
 #footer { margin-top: 3em; }
+#footer img:first-child { margin-bottom: 6px; }
 #footer hr { border: 0; height: 0; border-bottom: 1px solid #888; }
