@@ -1,2 +1,5 @@
 AddOutputFilterByType DEFLATE application/xml
 AddOutputFilterByType DEFLATE text/css
+
+ExpiresActive On
+ExpiresDefault A300
