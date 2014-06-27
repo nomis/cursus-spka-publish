@@ -92,7 +92,7 @@ public class ResultsLinksGenerator {
 		pw.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		pw.println("<div id=\"footer\">");
 		pw.println("\t<hr/>");
-		pw.println("\t<p><a href=\"/\"><img src=\"/_images/spkalogo.gif\" alt=\"SPKA\"/><img src=\"/_images/activities.gif\" alt=\"\"/></a></p>");
+		pw.println("\t<p><a href=\"/\" title=\"Scottish Power Kite Association\"><img src=\"/_images/spkalogo.gif\" alt=\"SPKA\"/><img src=\"/_images/activities.gif\" alt=\"\"/></a></p>");
 		pw.println("\t<ul class=\"menu\">");
 		for (Map.Entry<String, String> result : results.entrySet()) {
 			String seriesName = result.getKey();
