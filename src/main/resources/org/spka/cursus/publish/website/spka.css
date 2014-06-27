@@ -31,9 +31,12 @@ ul.menu li:last-child { border-right: 1px solid; padding-right: 0.75ex; }
 ul.menu li:hover { background: #ff8; }
 
 @media print {
-	ul.menu { display: none; }
+	ul.menu, #footer { display: none; }
 	h1 { page-break-after: avoid; }
 	table { page-break-before: avoid; page-break-inside: avoid; }
 	.race.pts.dis { text-decoration: line-through; }
 	.race.pts.sim { text-decoration: underline; }
 }
+
+#footer { margin-top: 3em; }
+#footer hr { border: 0; height: 0; border-bottom: 1px solid #888; }

@@ -15,7 +15,7 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.spka.cursus.publish.website;
+package org.spka.cursus.publish.website.results;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +25,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.spka.cursus.publish.website.Constants;
+
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
@@ -52,6 +55,7 @@ public class ResultsPagesGenerator {
 		XSLTHTMLGenerator gen = new XSLTHTMLGenerator(Constants.DATA_FILE_PREFIX + scoresFile.getName(), Files.getNameWithoutExtension(scoresFile.getName()),
 				scores);
 
+		gen.getFooters().add("footer.xml");
 		gen.getStyleSheets().add("spka.css");
 		if (scores.getData().getSeries().getName().startsWith("Celtic Challenge ")) {
 			gen.getStyleSheets().add("spka-cc.css");
@@ -73,16 +77,16 @@ public class ResultsPagesGenerator {
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		scores.to(buf);
 		buf.close();
-		pages.put(Constants.DATA_FILE_PREFIX + scoresFile.getName(), ByteSource.wrap(buf.toByteArray()));
+		pages.put(Constants.RESULTS_DIR + "/" + Constants.DATA_FILE_PREFIX + scoresFile.getName(), ByteSource.wrap(buf.toByteArray()));
 
 		for (String styleSheet : gen.getStyleSheets()) {
-			pages.put(styleSheet, Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + styleSheet)));
+			pages.put(Constants.RESULTS_DIR + "/" + styleSheet, Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + styleSheet)));
 		}
 
-		pages.putAll(gen.getMenuPage());
-		pages.putAll(gen.getSimplePage());
-		pages.putAll(gen.getSplitPages());
-		pages.putAll(gen.getCodePages());
+		for (Map.Entry<String, ByteSource> page : Iterables.concat(gen.getMenuPage().entrySet(), gen.getSimplePage().entrySet(),
+				gen.getSplitPages().entrySet(), gen.getCodePages().entrySet())) {
+			pages.put(Constants.RESULTS_DIR + "/" + page.getKey(), page.getValue());
+		}
 	}
 
 	public Map<String, ByteSource> getPages() {

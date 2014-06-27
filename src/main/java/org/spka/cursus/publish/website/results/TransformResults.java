@@ -15,12 +15,14 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.spka.cursus.publish.website;
+package org.spka.cursus.publish.website.results;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.spka.cursus.publish.website.Constants;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;

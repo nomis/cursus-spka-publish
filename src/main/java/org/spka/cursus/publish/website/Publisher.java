@@ -29,6 +29,8 @@ import org.spka.cursus.publish.website.ftp.FileCache;
 import org.spka.cursus.publish.website.ftp.ListFiles;
 import org.spka.cursus.publish.website.ftp.PrepareDirectory;
 import org.spka.cursus.publish.website.ftp.Uploader;
+import org.spka.cursus.publish.website.results.ResultsLinksGenerator;
+import org.spka.cursus.publish.website.results.ResultsPagesGenerator;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
@@ -44,9 +46,7 @@ public class Publisher implements FTPActivity {
 		this.files.put(Constants.RESULTS_DIR + "/.htaccess", Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + ".htaccess")));
 
 		for (File file : files) {
-			for (Map.Entry<String, ByteSource> page : new ResultsPagesGenerator(file).getPages().entrySet()) {
-				this.files.put(Constants.RESULTS_DIR + "/" + page.getKey(), page.getValue());
-			}
+			this.files.putAll(new ResultsPagesGenerator(file).getPages());
 		}
 	}
 
@@ -66,9 +66,7 @@ public class Publisher implements FTPActivity {
 		dl.from(ftp);
 
 		files.clear();
-		for (Map.Entry<String, ByteSource> page : new ResultsLinksGenerator(fileCache).getPages().entrySet()) {
-			files.put(Constants.WWW_DIR + "/" + page.getKey(), page.getValue());
-		}
+		files.putAll(new ResultsLinksGenerator(fileCache).getPages());
 		ul.to(ftp, files);
 
 		return false;
