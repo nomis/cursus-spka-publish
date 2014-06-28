@@ -31,6 +31,7 @@ import org.spka.cursus.publish.website.ftp.FileCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteSource;
@@ -54,7 +55,8 @@ public class ResultsLinksGenerator {
 	private Map<String, ByteSource> pages = new HashMap<String, ByteSource>();
 
 	public ResultsLinksGenerator(FileCache files) throws IOException, ImportException {
-		Map<String, String> results = new TreeMap<String, String>(new ResultsPageComparator());
+		Map<String, String> resultsReverse = new TreeMap<String, String>(new ResultsPageComparator(true));
+		Map<String, String> resultsForward = new TreeMap<String, String>(new ResultsPageComparator(false));
 
 		for (Map.Entry<String, ByteSource> file : files.entrySet()) {
 			if (file.getKey().startsWith(PREFIX) && file.getKey().endsWith(".xml")) {
@@ -63,7 +65,8 @@ public class ResultsLinksGenerator {
 				String seriesName = createSeriesName(scores.getData().getSeries(), scores.getData().getSeriesResults().getScorer());
 
 				if (seriesName != null) {
-					results.put(seriesName, fileName);
+					resultsReverse.put(seriesName, fileName);
+					resultsForward.put(seriesName, fileName);
 				}
 			}
 		}
@@ -71,7 +74,7 @@ public class ResultsLinksGenerator {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + "results.shtml_header")).copyTo(out);
 		PrintWriter pw = new PrintWriter(new OutputStreamWriter(out, Charsets.ISO_8859_1));
-		for (Map.Entry<String, String> result : results.entrySet()) {
+		for (Map.Entry<String, String> result : resultsReverse.entrySet()) {
 			String seriesName = result.getKey();
 			String fileName = result.getValue();
 
@@ -94,7 +97,7 @@ public class ResultsLinksGenerator {
 		pw.println("\t<hr/>");
 		pw.println("\t<p><a href=\"/\" title=\"Scottish Power Kite Association\"><img src=\"/_images/spkalogo.gif\" alt=\"SPKA\"/><img src=\"/_images/activities.gif\" alt=\"\"/></a></p>");
 		pw.println("\t<ul class=\"menu\">");
-		for (Map.Entry<String, String> result : results.entrySet()) {
+		for (Map.Entry<String, String> result : resultsForward.entrySet()) {
 			String seriesName = result.getKey();
 			String fileName = result.getValue();
 
@@ -130,13 +133,22 @@ public class ResultsLinksGenerator {
 
 	private static class ResultsPageComparator implements Comparator<String> {
 		private static final String SPKA_RACE_SERIES = "Race Series ";
+		private boolean reverse;
+
+		public ResultsPageComparator(boolean reverse) {
+			this.reverse = reverse;
+		}
 
 		@Override
 		public int compare(String o1, String o2) {
 			String s1 = o1.split("—", 2)[0];
 			String s2 = o2.split("—", 2)[0];
-			return ComparisonChain.start().compareTrueFirst(o1.startsWith(SPKA_RACE_SERIES), o2.startsWith(SPKA_RACE_SERIES)).compare(s2, s1).compare(o1, o2)
-					.result();
+			Ordering<String> order = Ordering.natural();
+			if (reverse) {
+				order = order.reverse();
+			}
+			return ComparisonChain.start().compareTrueFirst(o1.startsWith(SPKA_RACE_SERIES), o2.startsWith(SPKA_RACE_SERIES)).compare(s1, s2, order)
+					.compare(o1, o2).result();
 		}
 	}
 }
