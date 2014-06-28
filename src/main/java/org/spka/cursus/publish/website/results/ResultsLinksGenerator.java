@@ -122,9 +122,9 @@ public class ResultsLinksGenerator {
 
 		if (series.getName().startsWith("Celtic Challenge ")) {
 			if (Constants.TOP_COUNTRY_SCORERS.contains(scorer)) {
-				return series.getName() + " — Top Country";
+				return series.getName() + " – Top Country";
 			} else {
-				return series.getName() + " — Normal Scoring";
+				return series.getName() + " – Normal Scoring";
 			}
 		}
 
@@ -141,8 +141,8 @@ public class ResultsLinksGenerator {
 
 		@Override
 		public int compare(String o1, String o2) {
-			String s1 = o1.split("—", 2)[0];
-			String s2 = o2.split("—", 2)[0];
+			String s1 = o1.split("–", 2)[0];
+			String s2 = o2.split("–", 2)[0];
 			Ordering<String> order = Ordering.natural();
 			if (reverse) {
 				order = order.reverse();
