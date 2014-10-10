@@ -28,7 +28,7 @@ public class Constants {
 	public static final String RESOURCE_PATH = "org/spka/cursus/publish/website/";
 
 	public static final String WWW_DIR = "/public_html";
-	public static final String RESULTS_FILE = WWW_DIR + "/results.shtml";
+	public static final String RESULTS_FILE = WWW_DIR + "/results.inc";
 	public static final String RESULTS_DIR = WWW_DIR + "/results";
 	public static final String DATA_FILE_PREFIX = "__";
 

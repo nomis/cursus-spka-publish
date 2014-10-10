@@ -36,7 +36,6 @@ import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
-import com.google.common.io.Resources;
 import com.google.common.net.UrlEscapers;
 import com.google.common.xml.XmlEscapers;
 
@@ -72,21 +71,19 @@ public class ResultsLinksGenerator {
 		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + "results.shtml_header")).copyTo(out);
 		PrintWriter pw = new PrintWriter(new OutputStreamWriter(out, Charsets.ISO_8859_1));
 		for (Map.Entry<String, String> result : resultsReverse.entrySet()) {
 			String seriesName = result.getKey();
 			String fileName = result.getValue();
 
-			pw.append("\t<li>");
-			pw.append("<a href=\"results/").append(HTML.escape(URL_PATH.escape(fileName + "s1.xml"))).append("\">");
+			pw.append("<li>");
+			pw.append("<a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "s1.xml"))).append("\">");
 			pw.append(ENTITY.escape(HTML.escape(seriesName))).append("</a>");
-			pw.append(" (<a href=\"results/").append(HTML.escape(URL_PATH.escape(fileName + "a.xml"))).append("\">print</a>");
-			pw.append(" | <a href=\"results/").append(HTML.escape(URL_PATH.escape(fileName + "t.xml"))).append("#s1\">tabs</a>)");
+			pw.append(" (<a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "a.xml"))).append("\">print</a>");
+			pw.append(" | <a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "t.xml"))).append("#s1\">tabs</a>)");
 			pw.println("</li>");
 		}
 		pw.flush();
-		Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + "results.shtml_footer")).copyTo(out);
 		out.close();
 		pages.put(Constants.RESULTS_FILE, ByteSource.wrap(out.toByteArray()));
 
