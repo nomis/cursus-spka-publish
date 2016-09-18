@@ -29,10 +29,10 @@ import com.google.common.base.Throwables;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 
-import eu.lp0.cursus.xml.ImportException;
-import eu.lp0.cursus.xml.data.entity.DataXMLEvent;
-import eu.lp0.cursus.xml.data.entity.DataXMLPilot;
-import eu.lp0.cursus.xml.scores.ScoresXMLFile;
+import uk.uuid.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.data.entity.DataXMLEvent;
+import uk.uuid.cursus.xml.data.entity.DataXMLPilot;
+import uk.uuid.cursus.xml.scores.ScoresXMLFile;
 
 @SuppressWarnings("nls")
 public class TransformResults extends ScoresXMLFile {

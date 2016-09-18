@@ -33,11 +33,11 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
-import eu.lp0.cursus.publish.html.XSLTHTMLGenerator;
-import eu.lp0.cursus.xml.ExportException;
-import eu.lp0.cursus.xml.ImportException;
-import eu.lp0.cursus.xml.data.entity.DataXMLClass;
-import eu.lp0.cursus.xml.scores.ScoresXMLFile;
+import uk.uuid.cursus.publish.html.XSLTHTMLGenerator;
+import uk.uuid.cursus.xml.ExportException;
+import uk.uuid.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.data.entity.DataXMLClass;
+import uk.uuid.cursus.xml.scores.ScoresXMLFile;
 
 @SuppressWarnings("nls")
 public class ResultsPagesGenerator {

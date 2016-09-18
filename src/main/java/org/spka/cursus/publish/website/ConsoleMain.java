@@ -34,8 +34,8 @@ import org.apache.commons.net.ftp.FTPClient;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-import eu.lp0.cursus.xml.ExportException;
-import eu.lp0.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.ExportException;
+import uk.uuid.cursus.xml.ImportException;
 
 @SuppressWarnings("nls")
 public class ConsoleMain {

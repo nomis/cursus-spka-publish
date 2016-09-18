@@ -8,13 +8,13 @@
 	<name>cursus (SPKA Publish)</name>
 	<description>Race series management program (SPKA Publish Application)</description>
 	<parent>
-		<groupId>eu.lp0.cursus</groupId>
+		<groupId>uk.uuid.cursus</groupId>
 		<artifactId>cursus</artifactId>
 		<version>0</version>
 		<relativePath></relativePath>
 	</parent>
 	<scm>
-		<connection>scm:git:git://github.com/lp0/cursus-spka-publish.git</connection>
+		<connection>scm:git:https://github.com/lp0/cursus-spka-publish.git</connection>
 		<url>https://github.com/lp0/cursus-spka-publish/</url>
 	</scm>
 	<developers>
@@ -32,7 +32,7 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>eu.lp0.cursus</groupId>
+			<groupId>uk.uuid.cursus</groupId>
 			<artifactId>cursus-core</artifactId>
 			<version>0.5.0-SNAPSHOT</version>
 		</dependency>

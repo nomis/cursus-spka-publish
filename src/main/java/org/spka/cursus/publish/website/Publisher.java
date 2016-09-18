@@ -35,8 +35,8 @@ import org.spka.cursus.publish.website.results.ResultsPagesGenerator;
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
 
-import eu.lp0.cursus.xml.ExportException;
-import eu.lp0.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.ExportException;
+import uk.uuid.cursus.xml.ImportException;
 
 @SuppressWarnings("nls")
 public class Publisher implements FTPActivity {

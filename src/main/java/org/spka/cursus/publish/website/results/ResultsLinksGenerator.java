@@ -39,9 +39,9 @@ import com.google.common.io.Files;
 import com.google.common.net.UrlEscapers;
 import com.google.common.xml.XmlEscapers;
 
-import eu.lp0.cursus.xml.ImportException;
-import eu.lp0.cursus.xml.data.entity.DataXMLSeries;
-import eu.lp0.cursus.xml.scores.ScoresXMLFile;
+import uk.uuid.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.data.entity.DataXMLSeries;
+import uk.uuid.cursus.xml.scores.ScoresXMLFile;
 
 @SuppressWarnings("nls")
 public class ResultsLinksGenerator {

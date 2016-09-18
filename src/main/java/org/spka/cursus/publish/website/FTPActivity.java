@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-import eu.lp0.cursus.xml.ImportException;
+import uk.uuid.cursus.xml.ImportException;
 
 public interface FTPActivity {
 	public boolean exec(FTPClient client) throws IOException, ImportException;
