@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -14,15 +14,24 @@
 
 	You should have received a copy of the GNU Affero General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.spka.cursus.publish.website;
+*/
+package org.spka.cursus.publish.website.ftp;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
-import org.apache.commons.net.ftp.FTPClient;
+public interface Activity {
+	boolean setFileType(int fileType) throws IOException;
 
-import uk.uuid.cursus.xml.ImportException;
+	boolean retrieveFile(String fileName, OutputStream out) throws IOException;
 
-public interface FTPActivity {
-	public boolean exec(FTPClient client) throws IOException, ImportException;
+	List<String> listFiles(String dir) throws IOException;
+
+	boolean changeWorkingDirectory(String dir) throws IOException;
+
+	boolean makeDirectory(String dir) throws IOException;
+
+	boolean storeFile(String fileName, InputStream in) throws IOException;
 }

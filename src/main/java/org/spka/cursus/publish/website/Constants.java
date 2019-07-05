@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2014,2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -27,9 +27,10 @@ import com.google.common.collect.ImmutableSet;
 public class Constants {
 	public static final String RESOURCE_PATH = "org/spka/cursus/publish/website/";
 
-	public static final String WWW_DIR = "/public_html";
-	public static final String RESULTS_FILE = WWW_DIR + "/results.inc";
-	public static final String RESULTS_DIR = WWW_DIR + "/results";
+	public static final String FTP_WWW_DIR = "/public_html";
+	public static final String SFTP_WWW_DIR = "/var/www/spka-main";
+	public static final String RESULTS_FILE = "/results.inc";
+	public static final String RESULTS_DIR = "/results";
 	public static final String DATA_FILE_PREFIX = "__";
 
 	public static final String PILOT_MAP_FILE = "pilots.map";

@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2014,2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 import org.spka.cursus.publish.website.Constants;
 
 import com.google.common.io.ByteSource;
@@ -34,7 +33,7 @@ public class DownloadDataFiles {
 		this.files = files;
 	}
 
-	public void from(FTPClient ftp) throws IOException {
+	public void from(Activity ftp) throws IOException {
 		if (!ftp.setFileType(FTP.BINARY_FILE_TYPE)) {
 			throw new IllegalStateException("Unable to set mode to binary");
 		}

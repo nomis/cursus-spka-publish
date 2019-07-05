@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2014,2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,22 @@ import java.util.prefs.Preferences;
 
 import javax.annotation.Nullable;
 
-import jline.console.ConsoleReader;
-
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.agentproxy.AgentProxyException;
+import com.jcraft.jsch.agentproxy.RemoteIdentityRepository;
+import com.jcraft.jsch.agentproxy.connector.SSHAgentConnector;
+import com.jcraft.jsch.agentproxy.usocket.JNAUSocketFactory;
 
+import jline.console.ConsoleReader;
 import uk.uuid.cursus.xml.ExportException;
 import uk.uuid.cursus.xml.ImportException;
 
@@ -44,7 +52,6 @@ public class ConsoleMain {
 	private String hostname;
 	private String username;
 	private String password;
-	private FTPClient ftp = new FTPClient();
 
 	public String getPref(String name, String prompt) throws IOException {
 		return getPref(name, prompt, false);
@@ -70,7 +77,7 @@ public class ConsoleMain {
 		console.setHandleUserInterrupt(true);
 	}
 
-	public boolean run(String[] files) throws IOException, ImportException, ExportException {
+	public boolean run(String[] files) throws Exception {
 		return run(Lists.transform(Arrays.asList(files), new Function<String, File>() {
 			@Override
 			@Nullable
@@ -80,22 +87,24 @@ public class ConsoleMain {
 		}));
 	}
 
-	public boolean run(List<File> files) throws IOException, ImportException, ExportException {
-		return ftp(new Publisher(files));
+	public boolean run(List<File> files) throws Exception {
+		return sftp(files);
 	}
 
-	private boolean ftp(FTPActivity activity) throws IOException, ImportException {
+	@SuppressWarnings("unused")
+	private boolean ftp(List<File> files) throws IOException, ImportException, ExportException {
+		FTPClient ftp = new FTPClient();
+
 		hostname = getPref("hostname", "FTP Hostname");
 		username = getPref("username", "FTP Username");
 		password = getPref("password", "FTP Password", true);
 
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out), true));
 
-		console.println("Connecting to " + hostname + "...");
+		System.out.println("Connecting to " + hostname + "...");
 		try {
 			ftp.connect(hostname);
 		} catch (IOException e) {
-			prefs.remove("hostname");
 			throw e;
 		}
 		ftp.enterLocalPassiveMode();
@@ -104,13 +113,12 @@ public class ConsoleMain {
 		boolean ret;
 		try {
 			if (!ftp.login(username, password)) {
-				prefs.remove("username");
 				prefs.remove("password");
 				okay = true;
 				return false;
 			}
 
-			ret = activity.exec(ftp);
+			ret = new Publisher(files, ftp).exec();
 			okay = true;
 		} finally {
 			try {
@@ -124,7 +132,33 @@ public class ConsoleMain {
 		return ret;
 	}
 
-	public static void main(String[] args) throws IOException, ImportException, ExportException {
+	private boolean sftp(List<File> files) throws IOException, ImportException, ExportException, JSchException, AgentProxyException {
+		JSch jsch = new JSch();
+		JSch.setConfig("PreferredAuthentications", "publickey");
+		jsch.setIdentityRepository(new RemoteIdentityRepository(new SSHAgentConnector(new JNAUSocketFactory())));
+
+		hostname = getPref("sftp-hostname", "SFTP Hostname");
+		username = getPref("sftp-username", "SFTP Username");
+
+		Session session = jsch.getSession(username, hostname);
+		session.setHostKeyRepository(new HostKeys());
+
+		ChannelSftp sftp;
+		System.out.println("Connecting to " + hostname + "...");
+		try {
+			session.connect();
+
+			Channel channel = session.openChannel("sftp");
+			channel.connect();
+			sftp = (ChannelSftp)channel;
+		} catch (JSchException e) {
+			throw e;
+		}
+
+		return new Publisher(files, sftp).exec();
+	}
+
+	public static void main(String[] args) throws Exception {
 		System.exit(new ConsoleMain().run(args) ? 0 : 1);
 	}
 }

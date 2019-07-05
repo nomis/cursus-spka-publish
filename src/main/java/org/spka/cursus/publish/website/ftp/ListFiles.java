@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2014,2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -19,28 +19,22 @@ package org.spka.cursus.publish.website.ftp;
 
 import java.io.IOException;
 
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPFileFilter;
 import org.spka.cursus.publish.website.Constants;
 
 @SuppressWarnings("nls")
 public class ListFiles {
-	private static final FTPFileFilter FILES_ONLY = new FTPFileFilter() {
-		@Override
-		public boolean accept(FTPFile file) {
-			return file.isFile();
-		}
-	};
 	private FileCache files;
 
 	public ListFiles(FileCache files) {
 		this.files = files;
 	}
 
-	public void from(FTPClient ftp) throws IOException {
-		for (FTPFile file : ftp.listFiles(Constants.RESULTS_DIR, FILES_ONLY)) {
-			files.put(Constants.RESULTS_DIR + "/" + file.getName(), null);
+	public void from(Activity ftp) throws IOException {
+		if (!ftp.listFiles(Constants.RESULTS_FILE).isEmpty()) {
+			files.put(Constants.RESULTS_FILE, null);
+		}
+		for (String file : ftp.listFiles(Constants.RESULTS_DIR)) {
+			files.put(Constants.RESULTS_DIR + "/" + file, null);
 		}
 	}
 }

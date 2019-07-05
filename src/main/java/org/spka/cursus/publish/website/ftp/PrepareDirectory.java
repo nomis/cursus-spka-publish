@@ -1,6 +1,6 @@
 /*
 	cursus - Race series management program
-	Copyright 2014  Simon Arlott
+	Copyright 2014,2019  Simon Arlott
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,6 @@ package org.spka.cursus.publish.website.ftp;
 
 import java.io.IOException;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.spka.cursus.publish.website.Constants;
 
 @SuppressWarnings("nls")
@@ -27,10 +26,14 @@ public class PrepareDirectory {
 	public PrepareDirectory() {
 	}
 
-	public void on(FTPClient ftp) throws IOException {
+	public void on(Activity ftp) throws IOException {
 		if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
 			if (!ftp.makeDirectory(Constants.RESULTS_DIR)) {
 				throw new IllegalStateException("Unable to create results dir");
+			}
+
+			if (!ftp.changeWorkingDirectory("/")) {
+				throw new IllegalStateException("Unable to change to root directory");
 			}
 
 			if (!ftp.changeWorkingDirectory(Constants.RESULTS_DIR)) {
@@ -38,6 +41,8 @@ public class PrepareDirectory {
 			}
 		}
 
-		ftp.changeWorkingDirectory("/");
+		if (!ftp.changeWorkingDirectory("/")) {
+			throw new IllegalStateException("Unable to change to root directory");
+		}
 	}
 }
