@@ -158,7 +158,12 @@ public class ConsoleMain {
 		return new Publisher(files, sftp).exec();
 	}
 
-	public static void main(String[] args) throws Exception {
-		System.exit(new ConsoleMain().run(args) ? 0 : 1);
+	public static void main(String[] args) {
+		try {
+			System.exit(new ConsoleMain().run(args) ? 0 : 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 }
