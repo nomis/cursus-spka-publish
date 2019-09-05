@@ -31,7 +31,6 @@ import org.spka.cursus.publish.website.ftp.FileCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteSource;
@@ -119,7 +118,7 @@ public class ResultsLinksGenerator {
 		}
 
 		if (series.getName().startsWith("4 Nations Championship ")) {
-			return series.getName();
+			return series.getName().split("\\(")[1].split("\\)")[0];
 		}
 
 		if (series.getName().startsWith("Celtic Challenge ")) {
@@ -134,27 +133,19 @@ public class ResultsLinksGenerator {
 	}
 
 	private static class ResultsPageComparator implements Comparator<String> {
-		private static final String ALL = " (Combined)";
-		private static final String MEN = " (Men)";
-		private static final String WOMEN = " (Women)";
-		private static final String COUNTRY = " (Top Country)";
-		private boolean reverse;
+		private static final String ALL = "Combined";
+		private static final String MEN = "Men";
+		private static final String WOMEN = "Women";
+		private static final String COUNTRY = "Top Country";
 
 		public ResultsPageComparator(boolean reverse) {
-			this.reverse = reverse;
+
 		}
 
 		@Override
 		public int compare(String o1, String o2) {
-			String s1 = o1.split("–", 2)[0];
-			String s2 = o2.split("–", 2)[0];
-			Ordering<String> order = Ordering.natural();
-			if (reverse) {
-				order = order.reverse();
-			}
-			return ComparisonChain.start().compareTrueFirst(o1.endsWith(ALL), o2.endsWith(ALL)).compareTrueFirst(o1.endsWith(MEN), o2.endsWith(MEN))
-					.compareTrueFirst(o1.endsWith(WOMEN), o2.endsWith(WOMEN)).compareTrueFirst(o1.endsWith(COUNTRY), o2.endsWith(COUNTRY))
-					.compare(s1, s2, order).compare(o1, o2).result();
+			return ComparisonChain.start().compareTrueFirst(o1.equals(ALL), o2.equals(ALL)).compareTrueFirst(o1.equals(MEN), o2.equals(MEN))
+					.compareTrueFirst(o1.equals(WOMEN), o2.equals(WOMEN)).compareTrueFirst(o1.equals(COUNTRY), o2.equals(COUNTRY)).compare(o1, o2).result();
 		}
 	}
 }
