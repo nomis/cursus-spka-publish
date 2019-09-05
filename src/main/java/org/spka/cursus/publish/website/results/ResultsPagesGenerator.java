@@ -57,7 +57,7 @@ public class ResultsPagesGenerator {
 
 		gen.getFooters().add("footer.xml");
 		gen.getStyleSheets().add("spka.css");
-		if (scores.getData().getSeries().getName().startsWith("Celtic Challenge ")) {
+		if (scores.getData().getSeries().getName().endsWith(" Top Country")) {
 			gen.getStyleSheets().add("spka-cc.css");
 		}
 		gen.getFlags().put("compact-race", "10");

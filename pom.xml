@@ -92,6 +92,15 @@
 								</goals>
 								<configuration>
 									<mainClass>${mainClass}</mainClass>
+									<arguments>
+										<argument>uk_2019a.xml</argument>
+										<argument>uk_2019m.xml</argument>
+										<argument>uk_2019f.xml</argument>
+										<argument>uk_2019c.xml</argument>
+										<argument>uk_2019dp.xml</argument>
+										<argument>uk_2019fb.xml</argument>
+										<argument>uk_2019w.xml</argument>
+									</arguments>
 								</configuration>
 							</execution>
 						</executions>

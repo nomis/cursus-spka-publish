@@ -77,10 +77,10 @@ public class ResultsLinksGenerator {
 			String fileName = result.getValue();
 
 			pw.append("<li>");
-			pw.append("<a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "s1.xml"))).append("\">");
+			pw.append("<a href=\"/results-uk2019/").append(HTML.escape(URL_PATH.escape(fileName + "s1.xml"))).append("\">");
 			pw.append(ENTITY.escape(HTML.escape(seriesName))).append("</a>");
-			pw.append(" (<a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "a.xml"))).append("\">print</a>");
-			pw.append(" | <a href=\"/results/").append(HTML.escape(URL_PATH.escape(fileName + "t.xml"))).append("#s1\">tabs</a>)");
+			pw.append(" (<a href=\"/results-uk2019/").append(HTML.escape(URL_PATH.escape(fileName + "a.xml"))).append("\">print</a>");
+			pw.append(" | <a href=\"/results-uk2019/").append(HTML.escape(URL_PATH.escape(fileName + "t.xml"))).append("#s1\">tabs</a>)");
 			pw.println("</li>");
 		}
 		pw.flush();
@@ -92,7 +92,8 @@ public class ResultsLinksGenerator {
 		pw.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		pw.println("<div id=\"footer\">");
 		pw.println("\t<hr/>");
-		pw.println("\t<p><a href=\"/\" title=\"Scottish Power Kite Association\"><img src=\"/_images/spkalogo.gif\" alt=\"SPKA\"/><img src=\"/_images/activities.gif\" alt=\"\"/></a></p>");
+		pw.println(
+				"\t<p><a href=\"/\" title=\"Scottish Power Kite Association\"><img src=\"/_images/spkalogo.gif\" alt=\"SPKA\"/><img src=\"/_images/activities.gif\" alt=\"\"/></a></p>");
 		pw.println("\t<ul class=\"menu\">");
 		for (Map.Entry<String, String> result : resultsForward.entrySet()) {
 			String seriesName = result.getKey();
@@ -117,6 +118,10 @@ public class ResultsLinksGenerator {
 			return series.getName().substring(5);
 		}
 
+		if (series.getName().startsWith("4 Nations Championship ")) {
+			return series.getName();
+		}
+
 		if (series.getName().startsWith("Celtic Challenge ")) {
 			if (Constants.TOP_COUNTRY_SCORERS.contains(scorer)) {
 				return series.getName() + " – Top Country";
@@ -129,7 +134,10 @@ public class ResultsLinksGenerator {
 	}
 
 	private static class ResultsPageComparator implements Comparator<String> {
-		private static final String SPKA_RACE_SERIES = "Race Series ";
+		private static final String ALL = " (Combined)";
+		private static final String MEN = " (Men)";
+		private static final String WOMEN = " (Women)";
+		private static final String COUNTRY = " (Top Country)";
 		private boolean reverse;
 
 		public ResultsPageComparator(boolean reverse) {
@@ -144,8 +152,9 @@ public class ResultsLinksGenerator {
 			if (reverse) {
 				order = order.reverse();
 			}
-			return ComparisonChain.start().compareTrueFirst(o1.startsWith(SPKA_RACE_SERIES), o2.startsWith(SPKA_RACE_SERIES)).compare(s1, s2, order)
-					.compare(o1, o2).result();
+			return ComparisonChain.start().compareTrueFirst(o1.endsWith(ALL), o2.endsWith(ALL)).compareTrueFirst(o1.endsWith(MEN), o2.endsWith(MEN))
+					.compareTrueFirst(o1.endsWith(WOMEN), o2.endsWith(WOMEN)).compareTrueFirst(o1.endsWith(COUNTRY), o2.endsWith(COUNTRY))
+					.compare(s1, s2, order).compare(o1, o2).result();
 		}
 	}
 }

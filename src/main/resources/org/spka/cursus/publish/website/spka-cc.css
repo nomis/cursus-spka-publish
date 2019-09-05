@@ -1,6 +1,6 @@
 @media screen {
 	tr.country-Scotland { color: #0065BD; }
-	tr.country-Ireland { color: #009B48; }
+	tr.country-England { color: #CC0000; }
 	.race.pts.dis { color: #999; }
 	tbody tr:hover { color: inherit; }
 }

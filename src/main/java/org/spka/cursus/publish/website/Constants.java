@@ -29,8 +29,8 @@ public class Constants {
 
 	public static final String FTP_WWW_DIR = "/public_html";
 	public static final String SFTP_WWW_DIR = "/var/www/spka-main";
-	public static final String RESULTS_FILE = "/results.inc";
-	public static final String RESULTS_DIR = "/results";
+	public static final String RESULTS_FILE = "/results-uk2019.inc";
+	public static final String RESULTS_DIR = "/results-uk2019";
 	public static final String DATA_FILE_PREFIX = "__";
 
 	public static final String PILOT_MAP_FILE = "pilots.map";
