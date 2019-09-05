@@ -57,7 +57,7 @@ public class ResultsPagesGenerator {
 
 		gen.getFooters().add("footer.xml");
 		gen.getStyleSheets().add("spka.css");
-		if (scores.getData().getSeries().getName().endsWith(" Top Country")) {
+		if (scores.getData().getSeries().getName().endsWith(" (Top Country)")) {
 			gen.getStyleSheets().add("spka-cc.css");
 		}
 		gen.getFlags().put("compact-race", "10");
@@ -83,8 +83,8 @@ public class ResultsPagesGenerator {
 			pages.put(Constants.RESULTS_DIR + "/" + styleSheet, Resources.asByteSource(Resources.getResource(Constants.RESOURCE_PATH + styleSheet)));
 		}
 
-		for (Map.Entry<String, ByteSource> page : Iterables.concat(gen.getMenuPage().entrySet(), gen.getSimplePage().entrySet(),
-				gen.getSplitPages().entrySet(), gen.getCodePages().entrySet())) {
+		for (Map.Entry<String, ByteSource> page : Iterables.concat(gen.getMenuPage().entrySet(), gen.getSimplePage().entrySet(), gen.getSplitPages().entrySet(),
+				gen.getCodePages().entrySet())) {
 			pages.put(Constants.RESULTS_DIR + "/" + page.getKey(), page.getValue());
 		}
 	}
