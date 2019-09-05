@@ -62,7 +62,7 @@ public class TransformResults extends ScoresXMLFile {
 
 		for (DataXMLEvent event : getData().getSeries().getEvents()) {
 			if (event.getName().startsWith("Race Event ")) {
-				event.setName(event.getName().substring(5));
+				event.setName("Day " + event.getName().substring(11));
 			}
 		}
 	}
