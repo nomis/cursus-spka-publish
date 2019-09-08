@@ -60,8 +60,8 @@ public class ResultsPagesGenerator {
 		if (scores.getData().getSeries().getName().endsWith(" (Top Country)")) {
 			gen.getStyleSheets().add("spka-cc.css");
 		}
-		gen.getFlags().put("compact-race", "10");
-		gen.getFlags().put("compact-event", "10");
+		gen.getFlags().put("compact-race", "8");
+		gen.getFlags().put("compact-event", "8");
 		if (Constants.TOP_COUNTRY_SCORERS.contains(scores.getData().getSeriesResults().getScorer())) {
 			gen.getFlags().put("top-country", null);
 		}
