@@ -10,12 +10,12 @@
 	<parent>
 		<groupId>uk.uuid.cursus</groupId>
 		<artifactId>cursus</artifactId>
-		<version>0</version>
+		<version>0-SNAPSHOT</version>
 		<relativePath></relativePath>
 	</parent>
 	<scm>
-		<connection>scm:git:https://github.com/lp0/cursus-spka-publish.git</connection>
-		<url>https://github.com/lp0/cursus-spka-publish/</url>
+		<connection>scm:git:https://github.com/nomis/cursus-spka-publish.git</connection>
+		<url>https://github.com/nomis/cursus-spka-publish/</url>
 	</scm>
 	<developers>
 		<developer>
@@ -24,15 +24,11 @@
 			<url>https://sa.me.uk/</url>
 		</developer>
 	</developers>
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.26</version>
+			<version>${slf4j.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
